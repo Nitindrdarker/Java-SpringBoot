@@ -1,5 +1,8 @@
 package com.example.example_10.controller;
 
+import com.example.example_10.model.Contact;
+import com.example.example_10.services.ContactService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,30 +12,47 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 public class ContactController {
+    private final ContactService contactService;
+    @Autowired
+    public ContactController(ContactService contactService) {
+        this.contactService = contactService;
+    }
+
     @RequestMapping("/contact")
     public String contact() {
         return "contact.html"; // This will render the contact.html template
     }
 
 
+//    @RequestMapping(value="/saveMsg", method = POST)
+//        public ModelAndView saveMessage(@RequestParam String name,
+//                                        @RequestParam String email,
+//                                        @RequestParam String mobileNum,
+//                                        @RequestParam String subject,
+//                                        @RequestParam String message) {
+//            // Here, you would typically save the message to a database or send an email
+//            // For this example, we'll just print it to the console
+//            System.out.println("Message received from: " + name);
+//            System.out.println("Email: " + email);
+//            System.out.println("Subject: " + subject);
+//            System.out.println("Message: " + message);
+//            System.out.println("Mobile Number: " + mobileNum);
+//
+//            return new ModelAndView("redirect:/contact");
+
+
+//        }
+
+
     @RequestMapping(value="/saveMsg", method = POST)
-        public ModelAndView saveMessage(@RequestParam String name,
-                                        @RequestParam String email,
-                                        @RequestParam String mobileNum,
-                                        @RequestParam String subject,
-                                        @RequestParam String message) {
-            // Here, you would typically save the message to a database or send an email
-            // For this example, we'll just print it to the console
-            System.out.println("Message received from: " + name);
-            System.out.println("Email: " + email);
-            System.out.println("Subject: " + subject);
-            System.out.println("Message: " + message);
-            System.out.println("Mobile Number: " + mobileNum);
+    public ModelAndView saveMessage(Contact contact) {
+        // Here, you would typically save the message to a database or send an email
+        // For this example, we'll just print it to the console
 
-            return new ModelAndView("redirect:/contact");
+        contactService.saveMessageDetails(contact);
+        return new ModelAndView("redirect:/contact");
 
-
-        }
+    }
 }
 
 
