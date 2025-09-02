@@ -5,6 +5,7 @@ import com.example.example_10.model.Holiday;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,8 +18,22 @@ import java.util.stream.Collectors;
 @Controller
 public class HolidaysController {
 
-    @GetMapping("/holidays")
-    public String displayHolidays(Model model) {
+    @GetMapping("/holidays/{display}")
+    public String displayHolidays(@RequestParam(required = false) boolean festival, @RequestParam(required = false) boolean federal , @PathVariable String display, Model model) {
+        if(display != null && display.equals("all")){
+            festival = true;
+            federal = true;
+        } else if(display != null && display.equals("federal")){
+            federal = true;
+            festival = false;
+        } else if(display != null && display.equals("festival")){
+            federal = false;
+            festival = true;
+        }
+
+
+        model.addAttribute("festival",festival);
+        model.addAttribute("federal",federal);
         List<Holiday> holidays = Arrays.asList(
                 new Holiday(" Jan 1 ","New Year's Day", Holiday.Type.FESTIVAL),
                 new Holiday(" Oct 31 ","Halloween", Holiday.Type.FESTIVAL),
