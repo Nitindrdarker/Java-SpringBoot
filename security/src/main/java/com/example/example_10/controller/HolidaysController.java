@@ -18,18 +18,18 @@ import java.util.stream.Collectors;
 @Controller
 public class HolidaysController {
 
-    @GetMapping("/holidays/{display}")
-    public String displayHolidays(@RequestParam(required = false) boolean festival, @RequestParam(required = false) boolean federal , @PathVariable String display, Model model) {
-        if(display != null && display.equals("all")){
-            festival = true;
-            federal = true;
-        } else if(display != null && display.equals("federal")){
-            federal = true;
-            festival = false;
-        } else if(display != null && display.equals("festival")){
-            federal = false;
-            festival = true;
-        }
+    @GetMapping("/holidays")
+    public String displayHolidays(@RequestParam(required = false) boolean festival, @RequestParam(required = false) boolean federal , Model model) {
+//        if(display != null && display.equals("all")){
+//            festival = true;
+//            federal = true;
+//        } else if(display != null && display.equals("federal")){
+//            federal = true;
+//            festival = false;
+//        } else if(display != null && display.equals("festival")){
+//            federal = false;
+//            festival = true;
+//        }
 
 
         model.addAttribute("festival",festival);
